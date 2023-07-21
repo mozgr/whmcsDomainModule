@@ -1,36 +1,4 @@
 <?php
-/**
- * WHMCS SDK Sample Registrar Module
- *
- * Registrar Modules allow you to create modules that allow for domain
- * registration, management, transfers, and other functionality within
- * WHMCS.
- *
- * This sample file demonstrates how a registrar module for WHMCS should
- * be structured and exercises supported functionality.
- *
- * Registrar Modules are stored in a unique directory within the
- * modules/registrars/ directory that matches the module's unique name.
- * This name should be all lowercase, containing only letters and numbers,
- * and always start with a letter.
- *
- * Within the module itself, all functions must be prefixed with the module
- * filename, followed by an underscore, and then the function name. For
- * example this file, the filename is "metunic.php" and therefore all
- * function begin "metunic_".
- *
- * If your module or third party API does not support a given function, you
- * should not define the function within your module. WHMCS recommends that
- * all registrar modules implement Register, Transfer, Renew, GetNameservers,
- * SaveNameservers, GetContactDetails & SaveContactDetails.
- *
- * For more information, please refer to the online documentation.
- *
- * @see https://developers.whmcs.com/domain-registrars/
- *
- * @copyright Copyright (c) WHMCS Limited 2017
- * @license https://www.whmcs.com/license/ WHMCS Eula
- */
 
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
@@ -41,19 +9,7 @@ use WHMCS\Domains\DomainLookup\SearchResult;
 use WHMCS\Domain\TopLevel\ImportItem;
 use WHMCS\Carbon;
 use WHMCS\Database\Capsule;
-// Require any libraries needed for the module to function.
-// require_once __DIR__ . '/path/to/library/loader.php';
-//
-// Also, perform any initialization required by the service's library.
 
-/**
- * Define module related metadata
- *
- * Provide some module information including the display name and API Version to
- * determine the method of decoding the input values.
- *
- * @return array
- */
 function metunic_MetaData()
 {
     return array(
@@ -62,24 +18,6 @@ function metunic_MetaData()
     );
 }
 
-/**
- * Define registrar configuration options.
- *
- * The values you return here define what configuration options
- * we store for the module. These values are made available to
- * each module function.
- *
- * You can store an unlimited number of configuration settings.
- * The following field types are supported:
- *  * Text
- *  * Password
- *  * Yes/No Checkboxes
- *  * Dropdown Menus
- *  * Radio Buttons
- *  * Text Areas
- *
- * @return array
- */
 function metunic_getConfigArray()
 {
     return [
@@ -109,14 +47,14 @@ function metunic_getConfigArray()
 
 
 
-function logToFile($message) {
-        $logFile = '/tmp/debug_log.txt';
-        $timestamp = date('Y-m-d H:i:s');
-        $logMessage = $timestamp . ': ' . $message . PHP_EOL;
+// function logToFile($message) {
+//         $logFile = '/tmp/debug_log.txt';
+//         $timestamp = date('Y-m-d H:i:s');
+//         $logMessage = $timestamp . ': ' . $message . PHP_EOL;
 
-        // Append the log message to the log file
-        file_put_contents($logFile, $logMessage, FILE_APPEND);
-}
+//         // Append the log message to the log file
+//         file_put_contents($logFile, $logMessage, FILE_APPEND);
+// }
 
 function sendRequest($method, $endpoint, $queryParams = [], $username, $password) {
     $baseURL = 'https://api-test.metunic.com.tr/v1';
@@ -213,8 +151,8 @@ function metunic_RegisterDomain($params) {
         'registrant_citizen_id' => $params['customfields1'],
         'registrant_address1' => $params['address1'],
         'registrant_address2' => $params['address2'],
-        'registrant_country' => "215",
-        'registrant_city' => "20",
+        'registrant_country' => "215", // ülke kodu, metunic api üzerinden alınabilir
+        'registrant_city' => "34", // il kodu, metunic api üzerinden alınabilir
         'registrant_postal_code' => $params['postcode'],
         'registrant_phone' => "+" . $params['phonencc'] . $params['phonenumber'],
         'registrant_email_address' => $params['email'],
